@@ -189,6 +189,7 @@ const PostManager = () => {
 
             <Box mb={3}>
                 <TextField
+                    id="post-title" // Added ID
                     label="Title"
                     variant="outlined"
                     fullWidth
@@ -199,6 +200,7 @@ const PostManager = () => {
                     helperText={errors.title}
                 />
                 <TextField
+                    id="post-content" // Added ID
                     label="Content"
                     variant="outlined"
                     fullWidth
@@ -210,13 +212,23 @@ const PostManager = () => {
                     error={!!errors.content}
                     helperText={errors.content}
                 />
-                <input type="file" onChange={handleImageChange} accept="image/*" />
+                <input 
+                    id="post-image-upload" // Added ID
+                    type="file" 
+                    onChange={handleImageChange} 
+                    accept="image/*" 
+                />
                 {imagePreview && (
                     <div style={{ textAlign: 'center', margin: '10px 0' }}>
                         <img src={imagePreview} alt="Preview" style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain', borderRadius: '8px' }} />
                     </div>
                 )}
-                <Button variant="contained" color="primary" onClick={handleCreatePost}>
+                <Button 
+                    id="create-post-btn" // Added ID
+                    variant="contained" 
+                    color="primary" 
+                    onClick={handleCreatePost}
+                >
                     Create Post
                 </Button>
             </Box>
@@ -253,16 +265,27 @@ const PostManager = () => {
                                             />
                                         </div>
                                     )}
-                                    <Button variant="outlined" color="secondary" onClick={() => handleDeleteClick(post)}>
+                                    <Button 
+                                        id={`delete-post-${post.id}`} // Unique ID for delete button
+                                        variant="outlined" 
+                                        color="secondary" 
+                                        onClick={() => handleDeleteClick(post)}
+                                    >
                                         Delete
                                     </Button>
-                                    <Button variant="outlined" color="primary" onClick={() => handleEditPost(post)}>
+                                    <Button 
+                                        id={`edit-post-${post.id}`} // Unique ID for edit button
+                                        variant="outlined" 
+                                        color="primary" 
+                                        onClick={() => handleEditPost(post)}
+                                    >
                                         Edit
                                     </Button>
                                 </CardContent>
                             </Card>
                         </Grid>
                     ))}
+
                 </Grid>
             )}
 
@@ -274,12 +297,12 @@ const PostManager = () => {
                 sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}
             />
 
-            {/* Modal cho chỉnh sửa bài viết */}
             <Modal open={open} onClose={handleCloseModal} closeAfterTransition BackdropComponent={Backdrop} BackdropProps={{ timeout: 500 }}>
                 <Fade in={open}>
                     <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
                         <Typography variant="h6">Edit Post</Typography>
                         <TextField
+                            id={`edit-title-${editingPost?.id}`} // Unique ID for editing title
                             label="Title"
                             variant="outlined"
                             fullWidth
@@ -290,6 +313,7 @@ const PostManager = () => {
                             helperText={errors.title}
                         />
                         <TextField
+                            id={`edit-content-${editingPost?.id}`} // Unique ID for editing content
                             label="Content"
                             variant="outlined"
                             fullWidth
@@ -302,22 +326,42 @@ const PostManager = () => {
                             helperText={errors.content}
                         />
                         <div className="update_image" style={{ margin: '10px 0' }}>
-                            <input type="file" onChange={handleImageChange} accept="image/*" />
+                            <input 
+                                id={`edit-image-upload-${editingPost?.id}`} // Unique ID for editing image upload
+                                type="file" 
+                                onChange={handleImageChange} 
+                                accept="image/*" 
+                            />
                             {imagePreview && (
                                 <div style={{ textAlign: 'center', margin: '10px 0' }}>
-                                    <img src={imagePreview} alt="Preview" style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain', borderRadius: '8px' }} />
+                                    <img 
+                                        src={imagePreview} 
+                                        alt="Preview" 
+                                        style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain', borderRadius: '8px' }} 
+                                    />
                                 </div>
                             )}
                         </div>
-                        <Button variant="contained" color="primary" onClick={handleUpdatePost} sx={{ mr: 1 }}>
+                        <Button 
+                            id={`update-post-btn-${editingPost?.id}`} // Unique ID for update button
+                            variant="contained" 
+                            color="primary" 
+                            onClick={handleUpdatePost} 
+                            sx={{ mr: 1 }}
+                        >
                             Update Post
                         </Button>
-                        <Button variant="outlined" onClick={handleCloseModal}>
+                        <Button 
+                            id={`cancel-edit-btn-${editingPost?.id}`} // Unique ID for cancel edit button
+                            variant="outlined" 
+                            onClick={handleCloseModal}
+                        >
                             Cancel
                         </Button>
                     </Box>
                 </Fade>
             </Modal>
+
 
             {/* Modal xác nhận xóa */}
             <Modal 
@@ -346,10 +390,19 @@ const PostManager = () => {
                             Bạn có chắc chắn muốn xóa bài viết này không?
                         </Typography>
                         <Box mt={3} display="flex" justifyContent="space-around">
-                            <Button variant="contained" color="error" onClick={confirmDeletePost}>
+                            <Button 
+                                id="confirm-delete-btn" // Added ID for delete confirmation
+                                variant="contained" 
+                                color="error" 
+                                onClick={confirmDeletePost}
+                            >
                                 Xóa
                             </Button>
-                            <Button variant="outlined" onClick={cancelDelete}>
+                            <Button 
+                                id="cancel-delete-btn" // Added ID for cancel delete
+                                variant="outlined" 
+                                onClick={cancelDelete}
+                            >
                                 Hủy
                             </Button>
                         </Box>
